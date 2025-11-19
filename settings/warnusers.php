@@ -101,10 +101,10 @@ if($orders){
             $leftgb = round( ($totalLeft) / 1073741824, 2);
             if($expiryTime != null && $total != null && $expiryTime >= 0 && $notif == 0){
                 $send = "";
-                if($expiryTime < time() + 86400) $send = "روز"; elseif($leftgb < 1) $send = "گیگ";
+                if($expiryTime < time() + 86400 * ۴) $send = "روز"; elseif($leftgb < 1) $send = "گیگ";
                 if($send != ""){  
                     $msg = "💡 کاربر گرامی، 
-        از سرویس اشتراک $remark تنها (۱ $send) باقی مانده است. میتواند از قسمت خرید های من سرویس فعلی خود را تمدید کنید یا سرویس جدید خریداری کنید.";
+        از سرویس اشتراک $remark تنها (۴ $send) باقی مانده است. میتواند از قسمت خرید های من سرویس فعلی خود را تمدید کنید یا سرویس جدید خریداری کنید.";
                     sendMessage( $msg, null, null, $from_id);
                     
                     $stmt = $connection->prepare("UPDATE `orders_list` SET `notif`= -1 WHERE `uuid`=?");
@@ -217,7 +217,7 @@ if($orders){
             if(!$found && !$logedIn) continue;
             
             $leftgb = round( ($totalLeft) / 1073741824, 2);
-            if($expiryTime <= time()) $send = true; elseif($leftgb <= 0) $send = true;
+            if($expiryTime <= time() + 518400 ) $send = true; elseif($leftgb <= 0) $send = true;
             if($send){
                 if($serverType == "marzban") $res = deleteMarzban($server_id, $remark);
                 else{if($inbound_id > 0) $res = deleteClient($server_id, $inbound_id, $uuid, 1); else $res = deleteInbound($server_id, $uuid, 1); }
